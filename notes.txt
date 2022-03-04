@@ -1,0 +1,113 @@
+Notes
+
+Just writing down some notes for stuff I'm likely to forget.
+
+Functions
+    Return not needed at the end of an expression to return a value, simply just have the last line be the variable (without ;)
+
+Ownership[https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html]
+    Ownership deals with memory
+    Rules must be followed for the compiler to compile the program/
+
+    Decisions will change depending if a value is on the Stack or Heap                      Pushing 45 onto stack      Popping 34 off stack (current top if 45 is not pushed)
+                                                                                                    ###45### ¬        -> ###34###
+    Stack (I partially researched this in year 8)                                                           |###34###|
+        Stacks store values in the orrder it gets them and removes them in the opposite order.              |###90###|
+            (Last in, first out)                                                                            |###1####|
+        Values added onto the top of the stack, values removed from the top.                                |###33###|
+            Popping: Removing data                      Pop! :D                                             |###75###|
+            Pushing: Adding data                                                                            |###65###|
+        All stack data must be a known, fixed size. Those with an unknown size must be on the heap.
+    
+    Heap (this one is new to me)
+        When data is added to the heap, a certain amount of space is requesed.
+            Memory allocator then finds free memory big enough in the heap.
+                This is called allocating on the heap or simply, "allocating"
+        The pointer to the heap is a known, fixed size.
+            Meaning it can be stored in the stack.
+            The pointer can then be followed to the actual heap location
+
+
+        Copy and pasted analogy from the documentation:
+        ###################################################################################
+        #   Think of being seated at a restaurant. When you enter,                        # 
+        #   you state the number of people in your group,                                 #
+        #   and the staff finds an empty table that fits everyone and leads you there.    #
+        #   If someone in your group comes late,                                          #
+        #   they can ask where you’ve been seated to find you.                            #
+        ###################################################################################
+
+    Pushing to a stack is faster than allocating to the heap since the allocator never has to find a place for the data.
+        A stack is faster since the data is always put to the top of the stack
+    Accessing data in the heap is slower than accessing the stack
+        This is because you need to follow a pointer for the heap
+
+    When a function is called, the local variables are pushed onto the stack.
+        These values are then automatically popped off when the function ends
+
+    Ownership addresses:
+        keeping track of what codes uses what data on a heap,
+        minimizing duplicate data,
+        garbage collection
+    
+    Understanding the stack and heap is not necessary 
+        and often wont be thought of,
+        although, it is nice to consider to for when I jump into 
+        a project with Rust.
+            (Speaking of which, I likely will try to rewrite my 'Feline' music player
+                in rust.
+                I won't even consider going full graphical, I will likely try
+                to create it using a rich terminal ui with a package like
+                tui-rs ).
+    
+    Functions (Ownership cont)
+        As with every other programming language, a variable declared within
+            a scope will only be usable within that scope.
+            (local variable).
+
+Variable Data Types (Ownership)
+    
+    String
+        String literals are immutable
+        To combat this a 'String' type is used, this type manages data allocation on the heap 
+            and can store unknown text while runnin.
+        ######################################
+        #   let s = String::from("hello");   #
+        ######################################
+
+        The string above CAN be mutated.
+
+        String::from : requests the memory it needs.
+        Function 'drop' is automatically called when the scope ends
+
+        ######################################
+        #   let s1 = String::from("hello");  #
+        #   let s2 = s1;                     #
+        ######################################
+
+        The above does not copy the contents of s1 to s2.
+            Instead, the program copies the pointer (as this is the data for the string on the stack) to s2
+                This means they point to the same location in memory.
+                (along with pointer; capacity and length are also copied to s2)
+            To prevent drop from cleaning the memory for s1 and s2 
+                (which would cause a double free error, potentially leading to memory corruption)
+                The compiler will no longer consider s1 to be valid and cannot be used.
+            This concept is often called a 'shallow copy' in other languages since it only copies pointer, cap and length.
+                In Rust, since the first variable is invalidated after, the concept is known as 'moving' the data
+                    s1 is 'moved' into s2
+            Rust never automatically 'deep copies' data (doesnt automatically copy the contents)
+                This ensures all automatic copying can be assumbed to be inexpensive in terms of performance during runtime.
+        
+        Cloning Heap data
+        To deep copy heap data of a string then the data must be cloned using 
+            <variable2> = <varriable1>.clone();
+            This copies the heap data to the specified variable.
+                This shit is expensive for performance tho 
+        Cloning Stack-only Data
+        The above, cloning heap data, is not required for integers as, since they are of a known, fixed size, they are added to the stack
+            This means cloning is quick and will automatically deep clone the data since the performance cost is minimal.
+
+I stopped at the start of this (01:38 04/03/2022):
+https://doc.rust-lang.org/book/ch04-02-references-and-borrowing.html
+
+    
