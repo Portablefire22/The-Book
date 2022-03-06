@@ -44,8 +44,7 @@ fn main() {
             - This crashes the program with a panic!
     */
     let a: [i32; 5] = [1,2,3,4,5];
-
-    
+    println!("{}",a[3]);
 
 
 }
