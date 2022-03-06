@@ -107,6 +107,11 @@ Variable Data Types (Ownership)
         The above, cloning heap data, is not required for integers as, since they are of a known, fixed size, they are added to the stack
             This means cloning is quick and will automatically deep clone the data since the performance cost is minimal.
 
+    Passing a variable to a function as an argument causes it to be invalid, the variable either has to be reassigned by having it passed
+back with a return, or by ending the expression with the variable.
+    To combat this, the pointer (the data that holds where the data is in memory) can be passed as an arguement instead. This
+allows the compiler to find the value required without causing the original variable to be invalid
+
 I stopped at the start of this (01:38 04/03/2022):
 https://doc.rust-lang.org/book/ch04-02-references-and-borrowing.html
 
