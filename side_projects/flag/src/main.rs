@@ -35,11 +35,9 @@ fn test2() {
         // https://doc.rust-lang.org/book/ch06-02-match.html
         let col;
         col = match j {
-            1 => (131,170,247),
-            2 => (247,129,128),
+            1 | 5 => (131,170,247), // 1 or 5
+            2 | 4 => (247,129,128), // 2 or 4 
             3 => (255,255,255),
-            4 => (247,129,128),
-            5 => (131,170,247),
             _ => unreachable!() // _ : Any value not included are unreachable.
         };
         // loop 3 times
