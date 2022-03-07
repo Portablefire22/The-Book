@@ -1,5 +1,6 @@
 use colored::*;
 use std::io;
+use std::time::{Instant}; // https://rust-lang-nursery.github.io/rust-cookbook/datetime/duration.html
 /*
     Plan:
 
@@ -12,6 +13,7 @@ use std::io;
 
 
 fn main() {
+    let start = Instant::now();
     println!("{}","Noughts And Crosses".truecolor(247,129,128));
     let mut board_state = [' ',' ',' ',' ',' ',' ',' ',' ',' '];
     let mut is_player1: bool = true;
@@ -28,6 +30,8 @@ fn main() {
         }
         //clearscreen::clear().expect("Failed to clear"); // TODO Find a better place to put this
     }
+    let duration = start.elapsed();
+    println!("Time elapsed: {:?}",duration);
     
 }
 
@@ -201,4 +205,39 @@ fn check_board_state(board_state: [char; 9]) -> bool{
     else{
         return false
     }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn test_check(){
+        let test_board = ['X','O',' ',
+                          'X','O','O',
+                          'X',' ',' '];
+        assert_eq!(check_board_state(test_board),true);
+    }
+    #[test]
+    fn test_check_two(){
+        let test_board = ['X','O','X',
+                          'O','O','O',
+                          'O','X','X'];
+        assert_eq!(check_board_state(test_board),true);
+    }
+    #[test]
+    fn test_check_tie(){
+        let test_board = ['X','O','X',
+                          'X','O','O',
+                          'O','X','X'];
+        assert_eq!(check_board_state(test_board),true);
+    }
+    
+    #[test]
+    fn test_check_fail(){
+        let test_board = ['X','O','X',
+                          'X',' ','O',
+                          'O','X','X'];
+        assert_eq!(check_board_state(test_board),false);
+    }
+    
 }
