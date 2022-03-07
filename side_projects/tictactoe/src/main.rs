@@ -1,6 +1,7 @@
 use colored::*;
 use std::io;
 use std::time::{Instant}; // https://rust-lang-nursery.github.io/rust-cookbook/datetime/duration.html
+use std::cmp;
 /*
     Plan:
 
@@ -22,10 +23,10 @@ fn main() {
         
         let take_input_results = take_input(is_player1, board_state); 
         is_player1 = take_input_results.0;
-        board_state = take_input_results.1;
-        //println!("{:?}", take_input_results.1);
+        board_state = take_input_results.1; 
+        //board_state = best_move(board_state);
         board_output(board_state);
-        if check_board_state(board_state){
+        if check_board_state(board_state).0{
             break 'GameLoop
         }
         //clearscreen::clear().expect("Failed to clear"); // TODO Find a better place to put this
@@ -37,7 +38,7 @@ fn main() {
 
 fn take_input(mut is_player1: bool, mut board_state: [char; 9]) -> (bool, [char; 9]){
     let mut input: String = String::new();
-    let mut letter: char;
+    let letter: char;
     match is_player1 {
         true => letter = 'X',
         false => letter = 'O',
@@ -75,7 +76,7 @@ fn board_output(board_state: [char; 9]){
     
 }
 
-fn check_board_state(board_state: [char; 9]) -> bool{
+fn check_board_state(board_state: [char; 9]) -> (bool, char){
     let mut occupied: u32 = 0;
     let mut player1_victory: bool = false;
     let mut player2_victory: bool = false;
@@ -99,8 +100,8 @@ fn check_board_state(board_state: [char; 9]) -> bool{
         }*/
     //}
     // Checking made using https://stackoverflow.com/a/2670776
-    let mut value_check_horz: i32 = 0;
-    let mut value_check_down: i32 = 0;
+    let mut value_check_horz: i32;
+    let mut value_check_down: i32;
     let mut i: usize = 0;
     while i < board_state.len().try_into().unwrap(){
         value_check_horz = 0;
@@ -131,7 +132,7 @@ fn check_board_state(board_state: [char; 9]) -> bool{
                 }
                 
                 if victory && !(player1_victory || player2_victory){
-                    println!("{}", value_check_down);
+                    //println!("{}", value_check_down);
                     match value_check_down {
                         3 => {
                             player1_victory = true;
@@ -183,12 +184,6 @@ fn check_board_state(board_state: [char; 9]) -> bool{
         i += 3;
     }
 
-    
-
-    
-
-
-
     if player1_victory || player2_victory{
         let mut letter: char = ' ';
         if player1_victory{
@@ -197,13 +192,13 @@ fn check_board_state(board_state: [char; 9]) -> bool{
             letter = 'O';
         }
         println!("Congratulations to {} for winning!", letter);
-        return true;
+        return (true, letter);
     } else if occupied == 9 {
         println!("Tie.");
-        return true
+        return (true, 'T');
     } 
     else{
-        return false
+        return (false, ' ');
     }
 }
 
@@ -240,4 +235,74 @@ mod tests {
         assert_eq!(check_board_state(test_board),false);
     }
     
+}
+
+
+// Trying my best to convert CodingTrain's minimax algorithm to Rust
+// IDK what this thing is doing currently, might fix later idk
+// https://github.com/CodingTrain/website/blob/main/CodingChallenges/CC_154_Tic_Tac_Toe_Minimax/P5/minimax.js
+
+fn best_move(mut board_state: [char; 9]) -> [char; 9]{
+    let mut best_score = (-f64::INFINITY) as i32; // This actually isnt infinity but it is enough to satisfy the requirement
+    let mut mve = [0,0]; // Nested arrays are used in the original so these must be modified to correctly identify the position ( 1st pos * 3 + 2nd pos)
+    for i in 0..3 {
+        for j in 0..3 {
+            if board_state[((i * 3)+j) as usize] == ' '{
+                board_state[((i * 3)+j) as usize] = 'O';
+                let r = minimax(board_state, 0, false);
+                let score = r.0;
+                board_state = r.1;
+                board_state[((i*3) + j) as usize] = ' ';
+                if (score > (best_score as i32)){
+                    best_score = score;
+                    mve = [i,j];
+                }
+            }
+        }
+    }
+    board_state[((mve[0] * 3) + mve[1])] = 'O';
+    board_state
+}
+
+fn minimax(mut board_state: [char; 9], depth: u32, isMaximizing: bool) -> (i32,[char; 9]){
+    let result = check_board_state(board_state);
+    if result.1 != ' '{
+        match result.1{
+            'X' => return (-10,board_state),
+            'O' => return (10,board_state),
+            'T' => return (0,board_state),
+            _ => unreachable!()
+        }
+    }
+    if isMaximizing{
+        let mut best_score = f64::INFINITY as i32;
+        for i in 0..3{
+            for j in 0..3{
+                if(board_state[(i*3)+j]) == ' '{
+                    board_state[(i*3)+j] = 'O';
+                    let r = minimax(board_state, depth + 1, false);
+                    let score = r.0;
+                    board_state = r.1;
+                    board_state[(i*3)+j] = ' ';
+                    best_score = cmp::max(score,best_score);
+                }
+            }
+        }
+        (best_score,board_state)
+    } else{
+        let mut best_score = f64::INFINITY as i32;
+        for i in 0..3{
+            for j in 0..3{
+                if(board_state[(i*3)+j]) == ' '{
+                    board_state[(i*3)+j] = 'X';
+                    let r = minimax(board_state, depth + 1, true);
+                    let score = r.0;
+                    board_state = r.1;
+                    board_state[(i*3)+j] = ' ';
+                    best_score = cmp::min(score,best_score);
+                }
+            }
+        }
+        (best_score,board_state)
+    }
 }
