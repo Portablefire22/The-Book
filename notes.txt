@@ -109,10 +109,18 @@ Variable Data Types (Ownership)
 
     Passing a variable to a function as an argument causes it to be invalid, the variable either has to be reassigned by having it passed
 back with a return, or by ending the expression with the variable.
-    To combat this, the pointer (the data that holds where the data is in memory) can be passed as an arguement instead. This
-allows the compiler to find the value required without causing the original variable to be invalid
+To combat this, the pointer (the data that holds where the data is in memory) can be passed as an arguement instead. This
+allows the compiler to find the value required without causing the original variable to be invalid.
+The value pointed at by the reference (a pointer but with a guarranteed value) will NOT be dropped when
+the scope ends. 
+                            A reference is indicated by &<variable_name>
+    Modifying data given by a reference is not possible (by default) as the reference does not have ownership and therefore is unable
+to write to the original variable.
+To make it able to modify the data, the reference must be made mutable. Only one mutable reference can exist for a single variable in a single scope at once.
+    A mutable reference can only be created if no other references to the same variable exist within the scope. Prevents clashing if both try to access data at once.
+    Multiple immutable references are allowed as they cannot change the data and cause conflicts.
 
-I stopped at the start of this (01:38 04/03/2022):
-https://doc.rust-lang.org/book/ch04-02-references-and-borrowing.html
+I stopped at the start of this (00:51 07/03/2022):
+https://doc.rust-lang.org/book/ch05-00-structs.html
 
     
