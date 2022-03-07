@@ -1,6 +1,5 @@
 use colored::*;
 use std::io;
-
 /*
     Plan:
 
@@ -39,7 +38,7 @@ fn take_input(mut is_player1: bool, mut board_state: [char; 9]) -> (bool, [char;
         true => letter = 'X',
         false => letter = 'O',
     };
-    println!("Select position for {} (1-9)",letter);
+    println!("Select position for {} (0-8)",letter);
     io::stdin()
         .read_line(&mut input)
         .expect("Failed to read line");
@@ -83,25 +82,107 @@ fn check_board_state(board_state: [char; 9]) -> bool{
     }
     let mut victory: bool = false;
     // TODO finish conditions and check for diag
-    for x in 0..8{ // Checks for winning conditions
-        match x {
-            0 => if board_state[x] == board_state[x+1] && (board_state[x+1] == board_state[x+2]) { 
+    //for x in 0..8{ // Checks for winning conditions
+        
+        /*match x {
+            0 => if (board_state[x] == board_state[x+1] && (board_state[x+1] == board_state[x+2])) || (board_state[x] == board_state[x+4] && board_state[x+4] == board_state[x+8]) { 
                 victory = true;
             },
             1 => if board_state[x] == board_state[x-1] && (board_state[x] == board_state[x+1]){
                 victory = true;
             }
             _ => unreachable!()
+        }*/
+    //}
+    // Checking made using https://stackoverflow.com/a/2670776
+    let mut value_check_horz: i32 = 0;
+    let mut value_check_down: i32 = 0;
+    let mut i: usize = 0;
+    while i < board_state.len().try_into().unwrap(){
+        value_check_horz = 0;
+        for j in 0..3{
+            //println!("{}", i+j);
+            match board_state[i + j]{
+                'X' => value_check_horz = value_check_horz + 1,
+                'O' => value_check_horz = value_check_horz - 1,
+                ' ' => i=i,
+                _ => unreachable!()
+            };
         }
-        if victory{
-            match board_state[x] {
+        if i == 0{
+            for z in 0..3{
+                value_check_down = 0;
+                let mut c: u32 = 0;
+                while c < board_state.len().try_into().unwrap(){
+                    match board_state[(z + c) as usize]{
+                        'X' => value_check_down = value_check_down + 1,
+                        'O' => value_check_down = value_check_down - 1,
+                        ' ' => i=i,
+                        _ => unreachable!()
+                    };
+                    c += 3;
+                }
+                if value_check_down.abs() == 3 || value_check_down.abs() == 3{
+                    victory = true;
+                }
+                
+                if victory && !(player1_victory || player2_victory){
+                    println!("{}", value_check_down);
+                    match value_check_down {
+                        3 => {
+                            player1_victory = true;
+                            break;
+                        },
+                        -3 => {
+                            player2_victory = true;
+                            break;
+                        }
+                        _ => std::panic::panic_any("A victory condition was achieved without the victory being attributed to a player!"),
+                    }
+                }
+            }
+            
+        }
+        // I can't be fucked to program this one like the others so I'm just going to hard code this solution
+        if board_state[0] == board_state[4] && board_state[4] == board_state[8] && board_state[0] != ' '{
+            victory = true;
+            match board_state[0]{
+                'X' => player1_victory = true,
+                'O' => player2_victory = true,
+                _ => std::panic::panic_any("A victory condition was achieved without the victory being attributed to a player!"),
+            }
+        } else if (board_state[2] == board_state[4] && board_state[4] == board_state[6]) && board_state[2] != ' '{
+            victory = true;
+            match board_state[2]{
                 'X' => player1_victory = true,
                 'O' => player2_victory = true,
                 _ => std::panic::panic_any("A victory condition was achieved without the victory being attributed to a player!"),
             }
         }
-        break;
+
+        if value_check_horz.abs() == 3 || value_check_horz.abs() == 3{
+            victory = true;
+        }
+        if victory && !(player1_victory || player2_victory){
+            match value_check_horz {
+                3 => {
+                    player1_victory = true;
+                    break;
+                },
+                -3 => {
+                    player2_victory = true;
+                    break;
+                }
+                _ => std::panic::panic_any("A victory condition was achieved without the victory being attributed to a player!"),
+            }
+        }
+        i += 3;
     }
+
+    
+
+    
+
 
 
     if player1_victory || player2_victory{
