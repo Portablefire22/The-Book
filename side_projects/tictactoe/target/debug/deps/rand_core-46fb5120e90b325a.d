@@ -1,0 +1,12 @@
+C:\Users\blake\Documents\Programming\Rust\the_book\side_projects\tictactoe\target\debug\deps\rand_core-46fb5120e90b325a.rmeta: C:\Users\blake\.cargo\registry\src\github.com-1ecc6299db9ec823\rand_core-0.5.1\src\lib.rs C:\Users\blake\.cargo\registry\src\github.com-1ecc6299db9ec823\rand_core-0.5.1\src\error.rs C:\Users\blake\.cargo\registry\src\github.com-1ecc6299db9ec823\rand_core-0.5.1\src\block.rs C:\Users\blake\.cargo\registry\src\github.com-1ecc6299db9ec823\rand_core-0.5.1\src\impls.rs C:\Users\blake\.cargo\registry\src\github.com-1ecc6299db9ec823\rand_core-0.5.1\src\le.rs C:\Users\blake\.cargo\registry\src\github.com-1ecc6299db9ec823\rand_core-0.5.1\src\os.rs
+
+C:\Users\blake\Documents\Programming\Rust\the_book\side_projects\tictactoe\target\debug\deps\librand_core-46fb5120e90b325a.rlib: C:\Users\blake\.cargo\registry\src\github.com-1ecc6299db9ec823\rand_core-0.5.1\src\lib.rs C:\Users\blake\.cargo\registry\src\github.com-1ecc6299db9ec823\rand_core-0.5.1\src\error.rs C:\Users\blake\.cargo\registry\src\github.com-1ecc6299db9ec823\rand_core-0.5.1\src\block.rs C:\Users\blake\.cargo\registry\src\github.com-1ecc6299db9ec823\rand_core-0.5.1\src\impls.rs C:\Users\blake\.cargo\registry\src\github.com-1ecc6299db9ec823\rand_core-0.5.1\src\le.rs C:\Users\blake\.cargo\registry\src\github.com-1ecc6299db9ec823\rand_core-0.5.1\src\os.rs
+
+C:\Users\blake\Documents\Programming\Rust\the_book\side_projects\tictactoe\target\debug\deps\rand_core-46fb5120e90b325a.d: C:\Users\blake\.cargo\registry\src\github.com-1ecc6299db9ec823\rand_core-0.5.1\src\lib.rs C:\Users\blake\.cargo\registry\src\github.com-1ecc6299db9ec823\rand_core-0.5.1\src\error.rs C:\Users\blake\.cargo\registry\src\github.com-1ecc6299db9ec823\rand_core-0.5.1\src\block.rs C:\Users\blake\.cargo\registry\src\github.com-1ecc6299db9ec823\rand_core-0.5.1\src\impls.rs C:\Users\blake\.cargo\registry\src\github.com-1ecc6299db9ec823\rand_core-0.5.1\src\le.rs C:\Users\blake\.cargo\registry\src\github.com-1ecc6299db9ec823\rand_core-0.5.1\src\os.rs
+
+C:\Users\blake\.cargo\registry\src\github.com-1ecc6299db9ec823\rand_core-0.5.1\src\lib.rs:
+C:\Users\blake\.cargo\registry\src\github.com-1ecc6299db9ec823\rand_core-0.5.1\src\error.rs:
+C:\Users\blake\.cargo\registry\src\github.com-1ecc6299db9ec823\rand_core-0.5.1\src\block.rs:
+C:\Users\blake\.cargo\registry\src\github.com-1ecc6299db9ec823\rand_core-0.5.1\src\impls.rs:
+C:\Users\blake\.cargo\registry\src\github.com-1ecc6299db9ec823\rand_core-0.5.1\src\le.rs:
+C:\Users\blake\.cargo\registry\src\github.com-1ecc6299db9ec823\rand_core-0.5.1\src\os.rs:
