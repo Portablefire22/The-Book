@@ -210,21 +210,21 @@ mod tests {
         let test_board = ['X','O',' ',
                           'X','O','O',
                           'X',' ',' '];
-        assert_eq!(check_board_state(test_board),true);
+        assert_eq!(check_board_state(test_board),(true,'X'));
     }
     #[test]
     fn test_check_two(){
         let test_board = ['X','O','X',
                           'O','O','O',
                           'O','X','X'];
-        assert_eq!(check_board_state(test_board),true);
+        assert_eq!(check_board_state(test_board),(true,'O'));
     }
     #[test]
     fn test_check_tie(){
         let test_board = ['X','O','X',
                           'X','O','O',
                           'O','X','X'];
-        assert_eq!(check_board_state(test_board),true);
+        assert_eq!(check_board_state(test_board),(true,'T'));
     }
     
     #[test]
@@ -232,7 +232,7 @@ mod tests {
         let test_board = ['X','O','X',
                           'X',' ','O',
                           'O','X','X'];
-        assert_eq!(check_board_state(test_board),false);
+        assert_eq!(check_board_state(test_board),(false,' '));
     }
     
 }
