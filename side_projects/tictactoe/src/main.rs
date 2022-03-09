@@ -18,15 +18,37 @@ fn main() {
     println!("{}","Noughts And Crosses".truecolor(247,129,128));
     let mut board_state = [' ',' ',' ',' ',' ',' ',' ',' ',' '];
     let mut is_player1: bool = true;
+    let mut choice: String = String::new();
+    println!("Play against AI (0) or Player (1)");
+    let mut i: bool = true;
+    let mut ai: bool = false;
+    let mut choice_num: i8 = 2;
+    while i{ 
+        io::stdin()
+            .read_line(&mut choice)
+            .expect("Failed to read line");
+        choice_num = match choice
+            .trim() // Trims whitespace
+            .parse() { // Parses the string into a number
+                Ok(num) => {i = false; num},
+                Err(_) => 10, 
+        };
+    }
+    match choice_num{
+        0 => ai = true,
+        1 => ai = false,
+        _ => println!("Only input 0 or 1")
+    }
+    
     board_output(board_state);
     'GameLoop: loop{
         
-        let take_input_results = take_input(is_player1, board_state); 
+        let take_input_results = take_input(is_player1, board_state, ai); 
         is_player1 = take_input_results.0;
         board_state = take_input_results.1; 
-        //board_state = best_move(board_state);
+        if ai { board_state = best_move(board_state); }
         board_output(board_state);
-        if check_board_state(board_state).0{
+        if check_board_state(board_state,ai).0{
             break 'GameLoop
         }
         //clearscreen::clear().expect("Failed to clear"); // TODO Find a better place to put this
@@ -36,7 +58,7 @@ fn main() {
     
 }
 
-fn take_input(mut is_player1: bool, mut board_state: [char; 9]) -> (bool, [char; 9]){
+fn take_input(mut is_player1: bool, mut board_state: [char; 9], ai: bool) -> (bool, [char; 9]){
     let mut input: String = String::new();
     let letter: char;
     match is_player1 {
@@ -58,7 +80,7 @@ fn take_input(mut is_player1: bool, mut board_state: [char; 9]) -> (bool, [char;
             println!("Space already occupied by {}, try again.", board_state[input])
         } else{
             board_state[input] = letter;
-            is_player1 = !is_player1;
+            if !ai { is_player1 = !is_player1; }
         }
         _ => println!("Not within the board's range, try again.")
     }
@@ -76,7 +98,7 @@ fn board_output(board_state: [char; 9]){
     
 }
 
-fn check_board_state(board_state: [char; 9]) -> (bool, char){
+fn check_board_state(board_state: [char; 9], ai: bool) -> (bool, char){
     let mut occupied: u32 = 0;
     let mut player1_victory: bool = false;
     let mut player2_victory: bool = false;
@@ -191,10 +213,10 @@ fn check_board_state(board_state: [char; 9]) -> (bool, char){
         } else if player2_victory {
             letter = 'O';
         }
-        println!("Congratulations to {} for winning!", letter);
+        if !ai { println!("Congratulations to {} for winning!", letter); }
         return (true, letter);
     } else if occupied == 9 {
-        println!("Tie.");
+        if !ai { println!("Tie."); }
         return (true, 'T');
     } 
     else{
@@ -210,21 +232,21 @@ mod tests {
         let test_board = ['X','O',' ',
                           'X','O','O',
                           'X',' ',' '];
-        assert_eq!(check_board_state(test_board),(true,'X'));
+        assert_eq!(check_board_state(test_board, false),(true,'X'),);
     }
     #[test]
     fn test_check_two(){
         let test_board = ['X','O','X',
                           'O','O','O',
                           'O','X','X'];
-        assert_eq!(check_board_state(test_board),(true,'O'));
+        assert_eq!(check_board_state(test_board, false),(true,'O'));
     }
     #[test]
     fn test_check_tie(){
         let test_board = ['X','O','X',
                           'X','O','O',
                           'O','X','X'];
-        assert_eq!(check_board_state(test_board),(true,'T'));
+        assert_eq!(check_board_state(test_board, false),(true,'T'));
     }
     
     #[test]
@@ -232,7 +254,7 @@ mod tests {
         let test_board = ['X','O','X',
                           'X',' ','O',
                           'O','X','X'];
-        assert_eq!(check_board_state(test_board),(false,' '));
+        assert_eq!(check_board_state(test_board, false),(false,' '));
     }
     
 }
@@ -253,7 +275,7 @@ fn best_move(mut board_state: [char; 9]) -> [char; 9]{
                 let score = r.0;
                 board_state = r.1;
                 board_state[((i*3) + j) as usize] = ' ';
-                if (score > (best_score as i32)){
+                if score > (best_score as i32){
                     best_score = score;
                     mve = [i,j];
                 }
@@ -264,9 +286,9 @@ fn best_move(mut board_state: [char; 9]) -> [char; 9]{
     board_state
 }
 
-fn minimax(mut board_state: [char; 9], depth: u32, isMaximizing: bool) -> (i32,[char; 9]){
-    let result = check_board_state(board_state);
-    if result.1 != ' '{
+fn minimax(mut board_state: [char; 9], depth: u32, is_maximizing: bool) -> (i32,[char; 9]){
+    let result = check_board_state(board_state,true);
+    if result.0{
         match result.1{
             'X' => return (-10,board_state),
             'O' => return (10,board_state),
@@ -274,8 +296,8 @@ fn minimax(mut board_state: [char; 9], depth: u32, isMaximizing: bool) -> (i32,[
             _ => unreachable!()
         }
     }
-    if isMaximizing{
-        let mut best_score = f64::INFINITY as i32;
+    if is_maximizing{
+        let mut best_score = -(f64::INFINITY) as i32; // This fucking minus sign has caused me to go mentally insane, do not remove this. When removed the algorithm fucks itself.
         for i in 0..3{
             for j in 0..3{
                 if(board_state[(i*3)+j]) == ' '{
