@@ -14,7 +14,6 @@ use std::cmp;
 
 
 fn main() {
-    let start = Instant::now();
     println!("{}","Noughts And Crosses".truecolor(247,129,128));
     let mut board_state = [' ',' ',' ',' ',' ',' ',' ',' ',' '];
     let mut is_player1: bool = true;
@@ -46,15 +45,17 @@ fn main() {
         let take_input_results = take_input(is_player1, board_state, ai); 
         is_player1 = take_input_results.0;
         board_state = take_input_results.1; 
+        let start = Instant::now();
         if ai { board_state = best_move(board_state); }
+        let duration = start.elapsed();
+        println!("Time elapsed: {:?}",duration);
         board_output(board_state);
         if check_board_state(board_state,ai).0{
             break 'GameLoop
         }
         //clearscreen::clear().expect("Failed to clear"); // TODO Find a better place to put this
     }
-    let duration = start.elapsed();
-    println!("Time elapsed: {:?}",duration);
+    
     
 }
 
@@ -229,32 +230,44 @@ mod tests {
     use super::*;
     #[test]
     fn test_check(){
+        let start = Instant::now();
         let test_board = ['X','O',' ',
                           'X','O','O',
                           'X',' ',' '];
-        assert_eq!(check_board_state(test_board, false),(true,'X'),);
+        assert_eq!(check_board_state(test_board, true),(true,'X'),);
+        let duration = start.elapsed();
+        println!("Test 1 elapsed: {:?}",duration);
     }
     #[test]
     fn test_check_two(){
+        let start = Instant::now();
         let test_board = ['X','O','X',
                           'O','O','O',
                           'O','X','X'];
-        assert_eq!(check_board_state(test_board, false),(true,'O'));
+        assert_eq!(check_board_state(test_board, true),(true,'O'));
+        let duration = start.elapsed();
+        println!("Test 2 elapsed: {:?}",duration);
     }
     #[test]
     fn test_check_tie(){
+        let start = Instant::now();
         let test_board = ['X','O','X',
                           'X','O','O',
                           'O','X','X'];
-        assert_eq!(check_board_state(test_board, false),(true,'T'));
+        assert_eq!(check_board_state(test_board, true),(true,'T'));
+        let duration = start.elapsed();
+        println!("Test 3 elapsed: {:?}",duration);
     }
     
     #[test]
     fn test_check_fail(){
+        let start = Instant::now();
         let test_board = ['X','O','X',
                           'X',' ','O',
                           'O','X','X'];
-        assert_eq!(check_board_state(test_board, false),(false,' '));
+        assert_eq!(check_board_state(test_board, true),(false,' '));
+        let duration = start.elapsed();
+        println!("Test 4 elapsed: {:?}",duration);
     }
     
 }
