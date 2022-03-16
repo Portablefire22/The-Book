@@ -1,4 +1,5 @@
 use clearscreen::clear;
+use std::io;
 fn main() {
     
     clear().expect("Failed to clear screen");
@@ -10,7 +11,15 @@ fn main() {
         [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
         [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ']
     ];
-    strings = lookup_char(strings, String::from("abcdefghijklmnopqrst"));
+    println!("Input your string (20 Char max): ");
+        let mut stri = String::from("") ;
+    while stri.len() > 20 || stri == ""{
+        stri = String::from("");
+        io::stdin()
+        .read_line(&mut stri)              // read_line returns a value (io::Result), these are enums (????).
+        .expect("Failed to read line");     // crashes the program if read_line returns 'Err', providing the error message in terminal
+    } 
+    strings = lookup_char(strings, stri.trim().to_string());
     loop {
         clear().expect("Failed to clear screen");
         let mut x: usize = 0;
@@ -141,30 +150,262 @@ fn lookup_char(mut txt: [[char; 80]; 5], input_str: String) -> [[char; 80]; 5]{
             'F' => {
                 txt[0][pos as usize] = '#'; txt[0][(pos+1) as usize] = '#'; txt[0][(pos+2) as usize] = '#';
                 txt[1][pos as usize] = '#';
-                txt[2][pos as usize] = '#'; txt[2][(pos+1) as usize] = '#'; txt[0][(pos+2) as usize] = '#';
+                txt[2][pos as usize] = '#'; txt[2][(pos+1) as usize] = '#'; txt[2][(pos+2) as usize] = '#';
                 txt[3][pos as usize] = '#';
                 txt[4][pos as usize] = '#';
             },
-            'G' => {},
-            'H' => {},
-            'I' => {},
-            'J' => {},
-            'K' => {},
-            'L' => {},
-            'M' => {},
-            'N' => {},
-            'O' => {},
-            'P' => {},
-            'Q' => {},
-            'R' => {},
-            'S' => {},
-            'T' => {},
-            'U' => {},
-            'V' => {},
-            'W' => {},
-            'X' => {},
-            'Y' => {},
-            'Z' => {},
+            'G' => {
+                txt[0][pos as usize] = '#';
+                txt[1][pos as usize] = '#';
+                txt[2][pos as usize] = '#';
+                txt[3][pos as usize] = '#';
+                txt[4][pos as usize] = '#';
+
+                txt[0][(pos+1) as usize] = '#';
+                txt[4][(pos+1) as usize] = '#';
+
+                txt[0][(pos+2) as usize] = '#';
+                txt[4][(pos+2) as usize] = '#';
+                txt[3][(pos+2) as usize] = '#';
+
+            },
+            'H' => {
+                txt[0][pos as usize] = '#';
+                txt[1][pos as usize] = '#';
+                txt[2][pos as usize] = '#';
+                txt[3][pos as usize] = '#';
+                txt[4][pos as usize] = '#';
+
+                txt[2][(pos+1) as usize] = '#';
+                
+                txt[0][(pos+2) as usize] = '#';
+                txt[1][(pos+2) as usize] = '#';
+                txt[2][(pos+2) as usize] = '#';
+                txt[3][(pos+2) as usize] = '#';
+                txt[4][(pos+2) as usize] = '#';
+            },
+            'I' => {
+                txt[0][(pos+1) as usize] = '#';
+                txt[1][(pos+1) as usize] = '#';
+                txt[2][(pos+1) as usize] = '#';
+                txt[3][(pos+1) as usize] = '#';
+                txt[4][(pos+1) as usize] = '#';
+
+                txt[0][(pos) as usize] = '#';
+                txt[0][(pos+2) as usize] = '#';
+
+                txt[4][(pos) as usize] = '#';
+                txt[4][(pos+2) as usize] = '#';
+
+
+            },
+            'J' => {
+                txt[0][(pos+2) as usize] = '#';
+                txt[1][(pos+2) as usize] = '#';
+                txt[2][(pos+2) as usize] = '#';
+                txt[3][(pos+2) as usize] = '#';
+                txt[4][(pos+2) as usize] = '#';
+
+                txt[4][(pos+1) as usize] = '#';
+                txt[0][(pos+1) as usize] = '#';
+                txt[3][(pos) as usize] = '#';
+            },
+            'K' => {
+                txt[0][(pos) as usize] = '#';
+                txt[1][(pos) as usize] = '#';
+                txt[2][(pos) as usize] = '#';
+                txt[3][(pos) as usize] = '#';
+                txt[4][(pos) as usize] = '#';
+
+                txt[4][(pos+2) as usize] = '#';
+                txt[0][(pos+2) as usize] = '#';
+                txt[2][(pos+1) as usize] = '#';
+                txt[3][(pos+2) as usize] = '#';
+                txt[1][(pos+2) as usize] = '#';
+            },
+            'L' => {
+                txt[0][(pos) as usize] = '#';
+                txt[1][(pos) as usize] = '#';
+                txt[2][(pos) as usize] = '#';
+                txt[3][(pos) as usize] = '#';
+                txt[4][(pos) as usize] = '#';
+                txt[4][(pos+2) as usize] = '#';
+                txt[4][(pos+1) as usize] = '#';
+            },
+            'M' => {
+                txt[0][(pos) as usize] = '#';
+                txt[1][(pos) as usize] = '#';
+                txt[2][(pos) as usize] = '#';
+                txt[3][(pos) as usize] = '#';
+                txt[4][(pos) as usize] = '#';
+                txt[0][(pos+2) as usize] = '#';
+                txt[1][(pos+2) as usize] = '#';
+                txt[2][(pos+2) as usize] = '#';
+                txt[3][(pos+2) as usize] = '#';
+                txt[4][(pos+2) as usize] = '#';
+                txt[1][(pos+1) as usize] = '#';
+            },
+            'N' => {
+                txt[0][(pos) as usize] = '#';
+                txt[1][(pos) as usize] = '#';
+                txt[2][(pos) as usize] = '#';
+                txt[3][(pos) as usize] = '#';
+                txt[4][(pos) as usize] = '#';
+                txt[0][(pos+2) as usize] = '#';
+                txt[1][(pos+2) as usize] = '#';
+                txt[2][(pos+2) as usize] = '#';
+                txt[3][(pos+2) as usize] = '#';
+                txt[4][(pos+2) as usize] = '#';
+                txt[0][(pos+1) as usize] = '#';
+            },
+            'O' => {
+                txt[0][(pos) as usize] = '#';
+                txt[1][(pos) as usize] = '#';
+                txt[2][(pos) as usize] = '#';
+                txt[3][(pos) as usize] = '#';
+                txt[4][(pos) as usize] = '#';
+                txt[0][(pos+2) as usize] = '#';
+                txt[1][(pos+2) as usize] = '#';
+                txt[2][(pos+2) as usize] = '#';
+                txt[3][(pos+2) as usize] = '#';
+                txt[4][(pos+2) as usize] = '#';
+                txt[0][(pos+1) as usize] = '#';
+                txt[4][(pos+1) as usize] = '#';
+            },
+            'P' => {
+                txt[0][(pos) as usize] = '#';
+                txt[1][(pos) as usize] = '#';
+                txt[2][(pos) as usize] = '#';
+                txt[3][(pos) as usize] = '#';
+                txt[4][(pos) as usize] = '#';
+                txt[0][(pos+2) as usize] = '#';
+                txt[1][(pos+2) as usize] = '#';
+                txt[2][(pos+2) as usize] = '#';
+                txt[0][(pos+1) as usize] = '#';
+                txt[2][(pos+1) as usize] = '#';
+            },
+            'Q' => {
+                txt[0][(pos) as usize] = '#';
+                txt[1][(pos) as usize] = '#';
+                txt[2][(pos) as usize] = '#';
+                txt[3][(pos) as usize] = '#';
+                txt[4][(pos) as usize] = '#';
+                txt[0][(pos+2) as usize] = '#';
+                txt[1][(pos+2) as usize] = '#';
+                txt[2][(pos+2) as usize] = '#';
+                txt[3][(pos+2) as usize] = '#';
+                txt[0][(pos+1) as usize] = '#';
+                txt[4][(pos+1) as usize] = '#';
+            },
+            'R' => {
+                txt[0][(pos) as usize] = '#';
+                txt[1][(pos) as usize] = '#';
+                txt[2][(pos) as usize] = '#';
+                txt[3][(pos) as usize] = '#';
+                txt[4][(pos) as usize] = '#';
+                txt[0][(pos+2) as usize] = '#';
+                txt[1][(pos+2) as usize] = '#';
+                txt[2][(pos+2) as usize] = '#';
+                txt[0][(pos+1) as usize] = '#';
+                txt[2][(pos+1) as usize] = '#';
+
+                txt[3][(pos+1) as usize] = '#';
+                txt[4][(pos+2) as usize] = '#';
+            },
+            'S' => {
+                txt[0][(pos) as usize] = '#';
+                txt[0][(pos+1) as usize] = '#';
+                txt[0][(pos+2) as usize] = '#';
+                txt[1][(pos) as usize] = '#';
+                txt[2][(pos) as usize] = '#';
+                txt[2][(pos+1) as usize] = '#';
+                txt[2][(pos+2) as usize] = '#';
+                txt[3][(pos+2) as usize] = '#';
+                txt[4][(pos+2) as usize] = '#';
+                txt[4][(pos+1) as usize] = '#';
+                txt[4][(pos) as usize] = '#';
+
+            },
+            'T' => {
+                txt[0][(pos) as usize] = '#';
+                txt[0][(pos+1) as usize] = '#';
+                txt[0][(pos+2) as usize] = '#';
+                txt[1][(pos+1) as usize] = '#';
+                txt[2][(pos+1) as usize] = '#';
+                txt[3][(pos+1) as usize] = '#';
+                txt[4][(pos+1) as usize] = '#';
+            },
+            'U' => {
+                txt[0][(pos) as usize] = '#';
+                txt[1][(pos) as usize] = '#';
+                txt[2][(pos) as usize] = '#';
+                txt[3][(pos) as usize] = '#';
+                txt[4][(pos) as usize] = '#';
+                txt[0][(pos+2) as usize] = '#';
+                txt[1][(pos+2) as usize] = '#';
+                txt[2][(pos+2) as usize] = '#';
+                txt[3][(pos+2) as usize] = '#';
+                txt[4][(pos+2) as usize] = '#';
+                txt[4][(pos+1) as usize] = '#';
+            },
+            'V' => {
+                txt[0][(pos) as usize] = '#';
+                txt[0][(pos+2) as usize] = '#';
+                txt[1][(pos) as usize] = '#';
+                txt[1][(pos+2) as usize] = '#';
+                txt[2][(pos) as usize] = '#';
+                txt[2][(pos+2) as usize] = '#';
+                txt[3][(pos) as usize] = '#';
+                txt[3][(pos+2) as usize] = '#';
+                txt[4][(pos+1) as usize] = '#';
+
+            },
+            'W' => {
+                txt[0][(pos) as usize] = '#';
+                txt[1][(pos) as usize] = '#';
+                txt[2][(pos) as usize] = '#';
+                txt[3][(pos) as usize] = '#';
+                txt[4][(pos) as usize] = '#';
+                txt[0][(pos+2) as usize] = '#';
+                txt[1][(pos+2) as usize] = '#';
+                txt[2][(pos+2) as usize] = '#';
+                txt[3][(pos+2) as usize] = '#';
+                txt[4][(pos+2) as usize] = '#';
+                txt[3][(pos+1) as usize] = '#';
+            },
+            'X' => {
+                txt[0][(pos) as usize] = '#';
+                txt[0][(pos+2) as usize] = '#';
+                txt[1][(pos) as usize] = '#';
+                txt[1][(pos+2) as usize] = '#';
+                txt[2][(pos+1) as usize] = '#';
+                txt[3][(pos) as usize] = '#';
+                txt[3][(pos+2) as usize] = '#';
+                txt[4][(pos) as usize] = '#';
+                txt[4][(pos+2) as usize] = '#';
+            },
+            'Y' => {
+                txt[0][(pos) as usize] = '#';
+                txt[0][(pos+2) as usize] = '#';
+                txt[1][(pos) as usize] = '#';
+                txt[1][(pos+2) as usize] = '#';
+                txt[2][(pos+1) as usize] = '#';
+                txt[3][(pos+1) as usize] = '#';
+                txt[4][(pos+1) as usize] = '#';
+            },
+            'Z' => {
+                txt[0][(pos) as usize] = '#';
+                txt[0][(pos+1) as usize] = '#';
+                txt[0][(pos+2) as usize] = '#';
+                txt[1][(pos+2) as usize] = '#';
+                txt[2][(pos+1) as usize] = '#';
+
+                txt[3][(pos) as usize] = '#';
+                txt[4][(pos+2) as usize] = '#';
+                txt[4][(pos+1) as usize] = '#';
+                txt[4][(pos) as usize] = '#';
+            },
+            ' ' => pos = pos,
             _ => std::panic::panic_any("String contains invalid characters! (ASCII only).")
         }
         pos = pos + 4;
