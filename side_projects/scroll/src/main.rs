@@ -398,4 +398,5 @@ fn lookup_char(mut txt: [[char; 120]; 5], input_str: String) -> [[char; 120]; 5]
     }
     //println!("{}", pos);
     return txt
+
 }
