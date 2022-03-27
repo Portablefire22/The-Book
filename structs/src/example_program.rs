@@ -19,7 +19,7 @@ pub fn rect_area(){
         width: input_dim("Width"),
         height: input_dim("Height"),
     };
-    println!("Area: {}", rectangle1.area());
+    println!("Area: {}", rectangle::area(rectangle1));
     println!("Can Hold: {}", rectangle1.can_hold(&rectangle{width: 10, height: 10}));
 }
 
