@@ -1,4 +1,3 @@
-use core::num;
 use std::io;
 struct rectangle{
     width: u32,
@@ -10,6 +9,9 @@ impl rectangle{
     fn area(&self) -> u32{
         self.width * self.height
     }
+    fn can_hold(&self, other: &rectangle) -> bool{
+        self.width > other.width && self.height > other.height
+    }
 }
 
 pub fn rect_area(){
@@ -18,6 +20,7 @@ pub fn rect_area(){
         height: input_dim("Height"),
     };
     println!("Area: {}", rectangle1.area());
+    println!("Can Hold: {}", rectangle1.can_hold(&rectangle{width: 10, height: 10}));
 }
 
 fn input_dim(opt: &str) -> u32{
