@@ -1,7 +1,7 @@
 use colored::*;
 use std::time::{Instant}; // https://rust-lang-nursery.github.io/rust-cookbook/datetime/duration.html
 // Not exactly the most elegant solution
-fn main() {
+fn main(){
     let start = Instant::now();
     println!("Flag Test");
     println!("Created using {}{}{}{}{}{}{}","c".red(),"o".yellow(),"l".green(),"o".blue(),"r".magenta(),"e".cyan(),"d".red());
@@ -24,7 +24,7 @@ fn main() {
     }
     let duration = start.elapsed();
     println!("Time elapsed: {:?}",duration);
-    test2();
+    //test2();
 }
 
 // Time for some over-engineering or ,simply, improving how well it scales :)
@@ -51,4 +51,30 @@ fn test2() { // On average 1 to 0.8 ms quicker
     }
     let duration = start.elapsed();
     println!("Time elapsed: {:?}",duration);
+}
+
+#[cfg(test)]
+mod tests{
+    use super::*;
+    #[test]
+    fn avg_time(){ // The two programs are consistently similar in speed but the fastest varies with each run
+        // From my tests, consistently, test2 is faster than main
+        
+        let mut totals = [0.0,0.0];
+        for _i in 0..1000{
+            let start = std::time::Instant::now();
+            assert_eq!(main(),());
+            let duration = start.elapsed();
+            totals[0] += duration.as_millis() as f32;
+        }
+
+        for _i in 0..1000{
+            let start = std::time::Instant::now();
+            assert_eq!(test2(),());
+            let duration = start.elapsed();
+            totals[1] += duration.as_millis() as f32;
+        }
+        println!("Five loop version avg time(ms): {}",totals[0]/1000.0);
+        println!("Nested loop version avg time(ms){}",totals[1]/1000.0);
+    }
 }
