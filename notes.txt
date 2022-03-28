@@ -125,6 +125,9 @@ I am likely to not use it until I have learned the language.
 
 10 minutes later and I've disabled it, it keeps giving me shit from the book to write.
 
+Enums
+Explored in /enums/main.rs along with the concept of Null
+
 I stopped at the start of this (00:39 27/03/2022):
 https://doc.rust-lang.org/stable/book/ch05-03-method-syntax.html#associated-functions
 
