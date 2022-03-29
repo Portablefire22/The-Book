@@ -1,4 +1,5 @@
 mod match_example;
+mod if_let;
 // Enums allow for a type to be defined by listing the various possible variants
 // They can be used to for pattern matching
 
@@ -39,6 +40,7 @@ fn main() {
     route(IpAddrKind::V4);
     route(IpAddrKind::V6);
     match_example::main();
+    if_let::main();
 }
 
 
